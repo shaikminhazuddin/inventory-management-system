@@ -1,0 +1,71 @@
+# ==============================================================================
+# GITIGNORE - INVENTORY MANAGEMENT SYSTEM (MAVEN / JAVA / TOMCAT)
+# ==============================================================================
+
+# Compiled Class Files
+*.class
+
+# Maven Build Directory & Archives
+target/
+*.war
+*.ear
+*.nar
+*.jar
+!**/lib/*.jar
+
+# Environment & Secret Files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Log Files & Crash Dumps
+*.log
+logs/
+hs_err_pid*
+replay_pid*
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse IDE
+.project
+.classpath
+.settings/
+.metadata/
+bin/
+tmp/
+
+# NetBeans IDE
+nbproject/private/
+nbbuild/
+dist/
+nb-configuration.xml
+
+# Visual Studio Code
+.vscode/
+
+# Operating System Files
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Temporary & Editor Backup Files
+*.tmp
+*.bak
+*.swp
+*~
