@@ -279,7 +279,7 @@ Ensure the following tools are installed on your workstation:
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/[YOUR-USERNAME]/inventory-management-system.git
+git clone https://github.com/shaikminhazuddin/inventory-management-system.git
 cd inventory-management-system
 ```
 
@@ -360,15 +360,13 @@ The application is pre-seeded with a default administrator account:
 
 ## 🖼 Screenshots
 
-*(Place screenshots in an `assets/images/` directory or upload to GitHub)*
-
-| Dashboard Overview | Product Management |
+| Executive Dashboard | Product Management |
 | :---: | :---: |
-| ![Dashboard Screenshot](https://via.placeholder.com/600x350?text=Dashboard+Overview) | ![Products Screenshot](https://via.placeholder.com/600x350?text=Product+Catalog) |
+| ![Executive Dashboard](docs/screenshots/dashboard.png) | ![Product Management](docs/screenshots/products.png) |
 
-| Stock IN / OUT Operations | Reports & Analytics |
+| Stock Operations (Inbound & Outbound) | Inventory Reports & Analytics |
 | :---: | :---: |
-| ![Stock Operations](https://via.placeholder.com/600x350?text=Stock+Operations) | ![Reports Screenshot](https://via.placeholder.com/600x350?text=Reports+and+CSV+Export) |
+| ![Stock Operations](docs/screenshots/stock-operations.png) | ![Inventory Reports](docs/screenshots/reports.png) |
 
 ---
 
@@ -403,6 +401,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 👨‍💻 Author & Acknowledgments
 
-- **Developed by**: [Your Name / Student Name]
-- **Degree / College**: B.Tech in Computer Science & Engineering / [Your Institution]
+- **Developed by**: [Shaik Minhazuddin](https://github.com/shaikminhazuddin)
+- **Degree / College**: B.Tech in Computer Science & Engineering
 - **Special Thanks**: Academic mentors, laboratory guides, and open-source contributors of Apache Tomcat, MySQL, and Bootstrap.

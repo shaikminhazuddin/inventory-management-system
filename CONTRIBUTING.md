@@ -36,3 +36,4 @@ Please be respectful and constructive in all discussions, pull requests, and iss
 - Use `PreparedStatement` for all database interactions to prevent SQL injection.
 - Manage database connections responsibly and ensure all resources (`Connection`, `Statement`, `ResultSet`) are closed properly.
 - Keep JSP views clean by delegating business and database logic to Servlets and DAOs (MVC separation).
+
