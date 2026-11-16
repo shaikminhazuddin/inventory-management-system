@@ -62,7 +62,10 @@ public class SupplierServlet extends HttpServlet {
             } else {
                 response.sendRedirect(request.getContextPath() + "/suppliers");
             }
-        } catch (SQLException e) {
+        } catch (NumberFormatException e) {
+            request.getSession().setAttribute("errorMessage", "Invalid supplier ID specified.");
+            response.sendRedirect(request.getContextPath() + "/suppliers");
+        } catch (Exception e) {
             e.printStackTrace();
             request.getSession().setAttribute("errorMessage", "Supplier operation failed: " + e.getMessage());
             response.sendRedirect(request.getContextPath() + "/suppliers");

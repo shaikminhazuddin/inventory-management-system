@@ -29,6 +29,7 @@ Designed as a complete, production-ready college B.Tech capstone project demonst
   - [4. Build the Project with Maven](#4-build-the-project-with-maven)
   - [5. Deploy to Apache Tomcat 10.1](#5-deploy-to-apache-tomcat-101)
 - [Default Administrator Login](#-default-administrator-login)
+- [Production Deployment on Render (Docker & TiDB Cloud)](#-production-deployment-on-render-docker--tidb-cloud)
 - [Screenshots](#-screenshots)
 - [Testing & Viva Demonstration Scenarios](#-testing--viva-demonstration-scenarios)
 - [Future Enhancements](#-future-enhancements)
@@ -355,6 +356,58 @@ The application is pre-seeded with a default administrator account:
 | **Username** | `admin` |
 | **Password** | `admin123` |
 | **Role** | System Administrator |
+
+---
+
+## ☁️ Production Deployment on Render (Docker & TiDB Cloud)
+
+You can deploy this application directly to **Render** as a production Docker Web Service connected to a **TiDB Cloud Starter** (Serverless MySQL-compatible database with TLS encryption).
+
+### 1. Set Up TiDB Cloud Starter Database
+1. Go to [TiDB Cloud](https://tidbcloud.com/) and create a free **Serverless Cluster**.
+2. In the TiDB Cloud Console, navigate to your cluster and click **Connect**:
+   - Select **Connect with: General / MySQL CLI**.
+   - Note your **Host**, **Port** (`4000`), **User** (e.g. `xxxx.root`), and **Password**.
+3. Open the **SQL Editor** in TiDB Cloud (or connect via MySQL CLI / Workbench).
+4. Run the contents of [`database.sql`](database.sql) to create the `inventory_management` schema, tables, indexes, and sample seed records.
+
+### 2. Deploy to Render via Docker
+1. Push your latest code to your GitHub repository:
+   ```bash
+   git push origin main
+   ```
+2. Log into the [Render Dashboard](https://dashboard.render.com/) and click **New +** ➔ **Web Service**.
+3. Connect your GitHub repository: `https://github.com/shaikminhazuddin/inventory-management-system`.
+4. Configure the Web Service settings:
+   - **Name**: `inventory-management-system` (or your chosen name)
+   - **Environment / Runtime**: `Docker`
+   - **Branch**: `main`
+   - **Region**: Choose a region closest to your TiDB Cloud cluster (e.g., `Oregon (US West)` or `Frankfurt (EU)`)
+   - **Instance Type**: `Free` (or higher)
+
+### 3. Configure Required Environment Variables on Render
+Under the **Environment Variables** tab in your Render Web Service dashboard, add the following variables:
+
+| Variable | Description | Example / Format |
+| :--- | :--- | :--- |
+| `DB_URL` | TiDB Cloud JDBC Connection String | `jdbc:mysql://<host>:4000/inventory_management?sslMode=VERIFY_IDENTITY&enabledTLSProtocols=TLSv1.2,TLSv1.3` |
+| `DB_USER` | TiDB Cloud Database Username | `<cluster-prefix>.root` |
+| `DB_PASSWORD` | TiDB Cloud Database Password | `<your_secure_tidb_password>` |
+| `PORT` | Container Port *(Render sets this automatically)* | `8080` (defaults to 8080 if not set) |
+
+> 🔒 **Security & TLS Verification:**  
+> The application uses MySQL Connector/J 8.4 with `sslMode=VERIFY_IDENTITY`. TiDB Cloud certificates are verified against Java 17's trusted root CAs automatically. Password credentials are never hardcoded or exposed in repository code.
+
+### 4. Access Your Live Application
+Once Render completes building the Docker container and starts Apache Tomcat, navigate to:
+```text
+https://<your-service-name>.onrender.com/InventoryManagementSystem/
+```
+*(Visiting the root URL `https://<your-service-name>.onrender.com/` will automatically redirect to `/InventoryManagementSystem/`).*
+
+Log in with:
+- **Username:** `admin`
+- **Password:** `admin123`
 
 ---
 

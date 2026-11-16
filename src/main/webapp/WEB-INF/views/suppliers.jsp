@@ -54,13 +54,20 @@
                                 </td>
                                 <td class="text-muted small"><c:out value="${s.address}" default="-"/></td>
                                 <td class="text-end">
-                                    <button type="button" class="btn btn-sm btn-outline-primary me-1"
-                                            onclick="openEditSupplierModal('${s.supplierId}', '${s.supplierName}', '${s.contactPerson}', '${s.phone}', '${s.email}', '${s.address}')">
+                                    <button type="button" class="btn btn-sm btn-outline-primary me-1 btn-edit-supplier"
+                                            data-id="${s.supplierId}"
+                                            data-name="<c:out value='${s.supplierName}'/>"
+                                            data-contact="<c:out value='${s.contactPerson}'/>"
+                                            data-phone="<c:out value='${s.phone}'/>"
+                                            data-email="<c:out value='${s.email}'/>"
+                                            data-address="<c:out value='${s.address}'/>"
+                                            title="Edit Supplier">
                                         <i class="bi bi-pencil"></i>
                                     </button>
                                     <a href="${pageContext.request.contextPath}/suppliers?action=delete&id=${s.supplierId}"
                                        class="btn btn-sm btn-outline-danger btn-confirm-delete"
-                                       data-name="<c:out value='${s.supplierName}'/>">
+                                       data-name="<c:out value='${s.supplierName}'/>"
+                                       title="Delete Supplier">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
@@ -171,16 +178,19 @@
 </div>
 
 <script>
-function openEditSupplierModal(id, name, contact, phone, email, address) {
-    document.getElementById('editSupplierId').value = id;
-    document.getElementById('editSupplierName').value = name;
-    document.getElementById('editContactPerson').value = contact;
-    document.getElementById('editPhone').value = phone;
-    document.getElementById('editEmail').value = email;
-    document.getElementById('editAddress').value = address;
-
-    new bootstrap.Modal(document.getElementById('editSupplierModal')).show();
-}
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll('.btn-edit-supplier').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            document.getElementById('editSupplierId').value = this.dataset.id || '';
+            document.getElementById('editSupplierName').value = this.dataset.name || '';
+            document.getElementById('editContactPerson').value = this.dataset.contact || '';
+            document.getElementById('editPhone').value = this.dataset.phone || '';
+            document.getElementById('editEmail').value = this.dataset.email || '';
+            document.getElementById('editAddress').value = this.dataset.address || '';
+            new bootstrap.Modal(document.getElementById('editSupplierModal')).show();
+        });
+    });
+});
 </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

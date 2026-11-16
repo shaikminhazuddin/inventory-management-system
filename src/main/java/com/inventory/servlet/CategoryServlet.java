@@ -62,9 +62,12 @@ public class CategoryServlet extends HttpServlet {
             } else {
                 response.sendRedirect(request.getContextPath() + "/categories");
             }
-        } catch (SQLException e) {
+        } catch (NumberFormatException e) {
+            request.getSession().setAttribute("errorMessage", "Invalid category ID specified.");
+            response.sendRedirect(request.getContextPath() + "/categories");
+        } catch (Exception e) {
             e.printStackTrace();
-            request.getSession().setAttribute("errorMessage", "Database error: " + e.getMessage());
+            request.getSession().setAttribute("errorMessage", "Category operation failed: " + e.getMessage());
             response.sendRedirect(request.getContextPath() + "/categories");
         }
     }

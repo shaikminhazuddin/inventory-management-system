@@ -70,12 +70,19 @@ public class StockServlet extends HttpServlet {
             } else {
                 response.sendRedirect(request.getContextPath() + "/stock");
             }
+        } catch (NumberFormatException e) {
+            request.getSession().setAttribute("errorMessage", "Invalid quantity or selection provided.");
+            response.sendRedirect(request.getContextPath() + "/stock");
         } catch (IllegalArgumentException e) {
             request.getSession().setAttribute("errorMessage", e.getMessage());
             response.sendRedirect(request.getContextPath() + "/stock");
         } catch (SQLException e) {
             e.printStackTrace();
             request.getSession().setAttribute("errorMessage", "Transaction error: " + e.getMessage());
+            response.sendRedirect(request.getContextPath() + "/stock");
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.getSession().setAttribute("errorMessage", "Operation error: " + e.getMessage());
             response.sendRedirect(request.getContextPath() + "/stock");
         }
     }

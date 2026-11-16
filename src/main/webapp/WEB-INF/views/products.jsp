@@ -109,13 +109,23 @@
                                     </c:choose>
                                 </td>
                                 <td class="text-end">
-                                    <button type="button" class="btn btn-sm btn-outline-primary me-1"
-                                            onclick="openEditProductModal('${p.productId}', '${p.productName}', '${p.skuCode}', '${p.barcode}', '${p.categoryId}', '${p.purchasePrice}', '${p.sellingPrice}', '${p.minStockLevel}', '${p.description}')">
+                                    <button type="button" class="btn btn-sm btn-outline-primary me-1 btn-edit-product"
+                                            data-id="${p.productId}"
+                                            data-name="<c:out value='${p.productName}'/>"
+                                            data-sku="<c:out value='${p.skuCode}'/>"
+                                            data-barcode="<c:out value='${p.barcode}'/>"
+                                            data-category="${p.categoryId}"
+                                            data-buy="${p.purchasePrice}"
+                                            data-sell="${p.sellingPrice}"
+                                            data-min="${p.minStockLevel}"
+                                            data-desc="<c:out value='${p.description}'/>"
+                                            title="Edit Product">
                                         <i class="bi bi-pencil"></i>
                                     </button>
                                     <a href="${pageContext.request.contextPath}/products?action=delete&id=${p.productId}"
                                        class="btn btn-sm btn-outline-danger btn-confirm-delete"
-                                       data-name="<c:out value='${p.productName}'/>">
+                                       data-name="<c:out value='${p.productName}'/>"
+                                       title="Delete Product">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
@@ -269,19 +279,22 @@
 </div>
 
 <script>
-function openEditProductModal(id, name, sku, barcode, categoryId, buyPrice, sellPrice, minLevel, desc) {
-    document.getElementById('editProductId').value = id;
-    document.getElementById('editProductName').value = name;
-    document.getElementById('editSkuCode').value = sku;
-    document.getElementById('editBarcode').value = barcode;
-    document.getElementById('editCategoryId').value = categoryId;
-    document.getElementById('editPurchasePrice').value = buyPrice;
-    document.getElementById('editSellingPrice').value = sellPrice;
-    document.getElementById('editMinStockLevel').value = minLevel;
-    document.getElementById('editDescription').value = desc;
-
-    new bootstrap.Modal(document.getElementById('editProductModal')).show();
-}
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll('.btn-edit-product').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            document.getElementById('editProductId').value = this.dataset.id || '';
+            document.getElementById('editProductName').value = this.dataset.name || '';
+            document.getElementById('editSkuCode').value = this.dataset.sku || '';
+            document.getElementById('editBarcode').value = this.dataset.barcode || '';
+            document.getElementById('editCategoryId').value = this.dataset.category || '';
+            document.getElementById('editPurchasePrice').value = this.dataset.buy || '';
+            document.getElementById('editSellingPrice').value = this.dataset.sell || '';
+            document.getElementById('editMinStockLevel').value = this.dataset.min || '';
+            document.getElementById('editDescription').value = this.dataset.desc || '';
+            new bootstrap.Modal(document.getElementById('editProductModal')).show();
+        });
+    });
+});
 </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

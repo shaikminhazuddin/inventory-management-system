@@ -51,13 +51,17 @@
                                 </td>
                                 <td class="text-muted small"><fmt:formatDate value="${c.createdAt}" pattern="yyyy-MM-dd"/></td>
                                 <td class="text-end">
-                                    <button type="button" class="btn btn-sm btn-outline-primary me-1"
-                                            onclick="openEditCategoryModal('${c.categoryId}', '${c.categoryName}', '${c.description}')">
+                                    <button type="button" class="btn btn-sm btn-outline-primary me-1 btn-edit-category"
+                                            data-id="${c.categoryId}"
+                                            data-name="<c:out value='${c.categoryName}'/>"
+                                            data-desc="<c:out value='${c.description}'/>"
+                                            title="Edit Category">
                                         <i class="bi bi-pencil"></i>
                                     </button>
                                     <a href="${pageContext.request.contextPath}/categories?action=delete&id=${c.categoryId}"
                                        class="btn btn-sm btn-outline-danger btn-confirm-delete"
-                                       data-name="<c:out value='${c.categoryName}'/>">
+                                       data-name="<c:out value='${c.categoryName}'/>"
+                                       title="Delete Category">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
@@ -140,13 +144,16 @@
 </div>
 
 <script>
-function openEditCategoryModal(id, name, desc) {
-    document.getElementById('editCategoryId').value = id;
-    document.getElementById('editCategoryName').value = name;
-    document.getElementById('editCategoryDescription').value = desc;
-
-    new bootstrap.Modal(document.getElementById('editCategoryModal')).show();
-}
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll('.btn-edit-category').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            document.getElementById('editCategoryId').value = this.dataset.id || '';
+            document.getElementById('editCategoryName').value = this.dataset.name || '';
+            document.getElementById('editCategoryDescription').value = this.dataset.desc || '';
+            new bootstrap.Modal(document.getElementById('editCategoryModal')).show();
+        });
+    });
+});
 </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

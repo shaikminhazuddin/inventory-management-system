@@ -45,9 +45,12 @@ public class ProductServlet extends HttpServlet {
             // Normal list view with search / filter
             String keyword = request.getParameter("keyword");
             String catParam = request.getParameter("categoryId");
-            Integer categoryId = (catParam != null && !catParam.trim().isEmpty())
-                    ? Integer.parseInt(catParam.trim())
-                    : null;
+            Integer categoryId = null;
+            if (catParam != null && !catParam.trim().isEmpty()) {
+                try {
+                    categoryId = Integer.parseInt(catParam.trim());
+                } catch (NumberFormatException ignored) {}
+            }
 
             List<Product> products = productDAO.searchAndFilter(keyword, categoryId);
             List<Category> categories = categoryDAO.getAllCategories();
@@ -59,9 +62,9 @@ public class ProductServlet extends HttpServlet {
 
             // Forward to view
             request.getRequestDispatcher("/WEB-INF/views/products.jsp").forward(request, response);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", "Database error: " + e.getMessage());
+            request.setAttribute("errorMessage", "Error loading products: " + e.getMessage());
             request.getRequestDispatcher("/WEB-INF/views/products.jsp").forward(request, response);
         }
     }
@@ -80,9 +83,12 @@ public class ProductServlet extends HttpServlet {
             } else {
                 response.sendRedirect(request.getContextPath() + "/products");
             }
-        } catch (SQLException e) {
+        } catch (NumberFormatException e) {
+            request.getSession().setAttribute("errorMessage", "Invalid numeric input. Please check price and stock values.");
+            response.sendRedirect(request.getContextPath() + "/products");
+        } catch (Exception e) {
             e.printStackTrace();
-            request.getSession().setAttribute("errorMessage", "Database operation failed: " + e.getMessage());
+            request.getSession().setAttribute("errorMessage", "Operation failed: " + e.getMessage());
             response.sendRedirect(request.getContextPath() + "/products");
         }
     }
